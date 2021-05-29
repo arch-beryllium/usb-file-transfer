@@ -59,7 +59,7 @@ setup_usb_file_transfer_configfs() {
   # Set up mass storage to rootfs
   root_mountpoint="$(df / | grep -E -o '^[/a-z0-9]*')"
   echo "$root_mountpoint" >$CONFIGFS/g1/functions/"$deviceinfo_usb_mass_storage_function"/lun.0/file
-  if [[ "$root_mountpoint" != /dev/mmcblk0 ]]; then
+  if [ -e /dev/mmcblk0 ] && [[ "$root_mountpoint" != /dev/mmcblk0 ]]; then
     echo "Detected SD card that is not the rootfs. Exposing it too"
     echo /dev/mmcblk0 >$CONFIGFS/g1/functions/"$deviceinfo_usb_mass_storage_function"/lun.1/file
   fi
